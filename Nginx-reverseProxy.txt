@@ -1,0 +1,75 @@
+Set Up a Node.js Application for Production on Ubuntu 22.04
+==========
+
+1.  Creating a Node.js Application
+
+vim hello.js
+--
+const http = require('http');
+
+const hostname = 'localhost';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World!\n');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+--
+
+node hello.js
+curl http://localhost:3000
+
+
+2. Installing PM2
+npm install pm2@latest -g
+pm2 start hello.js
+pm2 startup systemd
+ex :
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u sammy --hp /home/imron
+pm2 save
+sudo systemctl start pm2-sammy
+
+notice : 
+if error, kill process with command : 
+> sudo ps aux | grep pm2 | grep -v grep | awk '{print $2}' | xargs kill -9
+
+
+systemctl status pm2-sammy
+
+pm2 stop app_name_or_id
+pm2 restart app_name_or_id
+pm2 list
+pm2 info app_name
+pm2 monit
+
+3. Setting Up Nginx as a Reverse Proxy Server
+
+> remove default config first, 
+sudo unlink /etc/nginx/sites-available/default
+sudo rm /etc/nginx/sites-enable/default
+sudo vim /etc/nginx/sites-available/myserver.config
+
+--
+server {
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+--
+
+sudo nginx -t
+sudo systemctl restart nginx
+
+Access IP Server
+
+Finish!

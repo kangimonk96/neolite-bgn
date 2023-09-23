@@ -1,0 +1,42 @@
+Nginx Installation : 
+=============
+
+1. Install Nginx 
+
+sudo apt update
+sudo apt install nginx
+sudo systemctl status nginx
+
+Access IP for check nginx page.
+
+2. Managing the Process 
+sudo systemctl stop nginx
+sudo systemctl start nginx
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl disable nginx
+sudo systemctl enable nginx
+
+3. Change page : 
+sudo mv index.nginx-debian.html index.nginx-debian.html.bak
+sudo vim index.nginx-debian.html
+--
+<html>
+    <head>
+        <title>Welcome to your name!</title>
+    </head>
+    <body>
+        <h1>Success!  The your name server block is working!</h1>
+    </body>
+</html>
+--
+
+Access IP for check nginx page.
+
+Note : 
+
+Server Logs : 
+------
+/var/log/nginx/access.log: Every request to your web server is recorded in this log file unless Nginx is configured to do otherwise.
+
+/var/log/nginx/error.log: Any Nginx errors will be recorded in this log.

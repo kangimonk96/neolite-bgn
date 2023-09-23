@@ -1,0 +1,28 @@
+MySQL Installation : 
+============
+
+1. Install and Configuring MySQL
+
+sudo apt update
+sudo apt install mysql-server
+sudo systemctl start mysql.service
+sudo mysql_secure_installation
+sudo mysql -u root -p
+ALTER USER 'root'@'localhost' IDENTIFIED WITH auth_socket;
+
+> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+If doesn't use auth_socket.
+
+2. Create Database and User 
+sudo mysql -u root -p
+create database [database_name]
+use [database_name]
+
+CREATE USER '[your name]'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON [database_name].* TO '[your name]'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+3. Testing 
+sudo mysql -u [your name] -p
+sudo systemctl status mysql.service
+sudo mysqladmin -p -u [your name] version
