@@ -18,6 +18,7 @@ sudo systemctl disable nginx
 sudo systemctl enable nginx
 
 3. Change page : 
+cd /var/www/html/
 sudo mv index.nginx-debian.html index.nginx-debian.html.bak
 sudo vim index.nginx-debian.html
 --
